@@ -1,6 +1,7 @@
 #![allow(unused)]
+use std::env;
 use std::fs;
-use std::io::{self, stdin, Read, Write};
+use std::io;
 use std::process::Command;
 
 fn default(file_path: &str, dir: &str) {
@@ -13,20 +14,23 @@ fn default(file_path: &str, dir: &str) {
 }
 
 fn main() {
-    print!("Enter Video Path:");
-    let mut vid_path = String::new();
-    io::stdout().flush().unwrap();
-    stdin().read_line(&mut vid_path).unwrap();
+    let args: Vec<String> = env::args().collect();
 
-    print!("Enter Directory Name to Store ( Creates a Directory ) :");
-    io::stdout().flush().unwrap();
-    let mut dir_name = String::new();
-    stdin().read_line(&mut dir_name).unwrap();
+    if args.len() != 3 {
+        println!("Usage: {} <video_path> <directory_name>", args[0]);
+        return;
+    }
 
-    let dir_name = dir_name.trim();
+    let vid_path = &args[1];
+    let dir_name = &args[2];
+
     match fs::create_dir(dir_name) {
         Ok(_) => println!("Directory '{}' created successfully.", dir_name),
-        Err(err) => println!("Error creating directory: {}", err),
+        Err(err) => {
+            println!("Error creating directory: {}", err);
+            return;
+        }
     }
-    default(&vid_path, dir_name);
+
+    default(vid_path, dir_name);
 }
