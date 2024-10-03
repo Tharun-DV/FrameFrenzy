@@ -1,2 +1,3 @@
 # FrameFrenzy
- The tool's ability to quickly and easily split an image into individual frames.
+The project involves developing an AI tool designed to capture frames from videos, facilitating the creation of a comprehensive dataset from the extracted images.
+
